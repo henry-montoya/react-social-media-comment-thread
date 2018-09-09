@@ -11,10 +11,10 @@ class CommentThread extends React.Component {
             <div className="col-md-12">
               <ul className="pl-0" style={{ listStyle: "none" }}>
                 {this.props.comments.length > 3 &&
-                  this.props.showAll && (
+                  this.props.showAllComments && (
                     <div className="row justify-content-end">
                       <div className="col-md-6">
-                        <a href="#" onClick={this.props.toggleShowAll}>
+                        <a href="#" onClick={this.props.toggleShowAllComments}>
                           hide comments...
                         </a>
                       </div>
@@ -25,11 +25,17 @@ class CommentThread extends React.Component {
                     return (
                       <React.Fragment key={index}>
                         {this.props.comments.length > 2 &&
-                          !this.props.showAll &&
+                          !this.props.showAllComments &&
                           comments.commentKey === 2 && (
-                            <div className="row justify-content-end" key={comments.commentId}>
+                            <div
+                              className="row justify-content-end"
+                              key={comments.commentId}
+                            >
                               <div className="col-md-7">
-                                <a href="#" onClick={this.props.toggleShowAll}>
+                                <a
+                                  href="#"
+                                  onClick={this.props.toggleShowAllComments}
+                                >
                                   view previous comments...
                                 </a>
                               </div>
@@ -41,13 +47,21 @@ class CommentThread extends React.Component {
                               <div className="col-md-1 mr-3">
                                 <img
                                   src={comments.userAvatar}
-                                  style={{ height: "35px", width: "35px", borderRadius: "50%" }}
+                                  style={{
+                                    height: "35px",
+                                    width: "35px",
+                                    borderRadius: "50%"
+                                  }}
                                   className="img-circle ml-0"
                                 />
                               </div>
                               <div
                                 className="col-md-7 mr-0"
-                                style={{ backgroundColor: "rgb(225, 227, 232)", borderRadius: "20px", padding: "2%" }}
+                                style={{
+                                  backgroundColor: "rgb(225, 227, 232)",
+                                  borderRadius: "20px",
+                                  padding: "2%"
+                                }}
                               >
                                 <p style={{ overflowWrap: "break-word" }}>
                                   <b>{comments.username}</b>
@@ -58,14 +72,22 @@ class CommentThread extends React.Component {
                               <div className="col-md-3">
                                 <div className="row mb-0">
                                   <div className="col-md-12">
-                                    <h6 style={{ fontSize: "xx-small" }}>{comments.dateCreated}</h6>
+                                    <h6 style={{ fontSize: "xx-small" }}>
+                                      {comments.dateCreated}
+                                    </h6>
                                   </div>
                                 </div>
                                 {comments.user !== null && (
                                   <div className="row">
                                     <div className="col-md-12">
-                                      <a href="#" onClick={this.props.showReply} name={comments.commentId}>
-                                        {this.props.showReplyInput && this.props.currentReply === comments.commentId
+                                      <a
+                                        href="#"
+                                        onClick={this.props.showReply}
+                                        name={comments.commentId}
+                                      >
+                                        {this.props.showReplyInput &&
+                                        this.props.currentReply ===
+                                          comments.commentId
                                           ? "cancel"
                                           : "reply"}
                                       </a>
@@ -76,7 +98,11 @@ class CommentThread extends React.Component {
                                   comments.user !== null && (
                                     <div className="row">
                                       <div className="col-md-12">
-                                        <a href="#" onClick={this.props.removeComment} name={comments.commentId}>
+                                        <a
+                                          href="#"
+                                          onClick={this.props.removeComment}
+                                          name={comments.commentId}
+                                        >
                                           delete
                                         </a>
                                       </div>
@@ -86,34 +112,49 @@ class CommentThread extends React.Component {
                             </div>
 
                             {this.props.showReplyInput &&
-                              this.props.currentReply === comments.commentId && (
+                              this.props.currentReply ===
+                                comments.commentId && (
                                 <CommentForm
                                   currentUser={this.props.currentUser}
                                   addComment={this.props.addComment}
-                                  handleCommentChange={this.props.handleCommentChange}
+                                  handleCommentChange={
+                                    this.props.handleCommentChange
+                                  }
                                   newComment={this.props.newComment}
                                 />
                               )}
                             <div className="row justify-content-end">
                               <div className="col-md-12">
-                                <ul style={{ listStyle: "none" }} className="pl-3">
+                                <ul
+                                  style={{ listStyle: "none" }}
+                                  className="pl-3"
+                                >
                                   {this.props.comments.map((reply, index) => {
-                                    if (reply.parentComment === comments.commentId) {
+                                    if (
+                                      reply.parentComment === comments.commentId
+                                    ) {
                                       return (
                                         <CommentReplies
                                           key={index}
                                           reply={reply}
                                           currentUser={this.props.currentUser}
                                           addComment={this.props.addComment}
-                                          handleCommentChange={this.props.handleCommentChange}
+                                          handleCommentChange={
+                                            this.props.handleCommentChange
+                                          }
                                           comments={this.props.comments}
                                           currentUser={this.props.currentUser}
-                                          showReplyInput={this.props.showReplyInput}
+                                          showReplyInput={
+                                            this.props.showReplyInput
+                                          }
                                           currentReply={this.props.currentReply}
                                           showReply={this.props.showReply}
-                                          removeComment={this.props.removeComment}
-                                          showAll={this.props.showAll}
-                                          //confirmDelete={this.props.confirmDelete}
+                                          removeComment={
+                                            this.props.removeComment
+                                          }
+                                          showAllComments={
+                                            this.props.showAllComments
+                                          }
                                         />
                                       );
                                     }

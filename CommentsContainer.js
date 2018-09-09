@@ -1,35 +1,25 @@
 import React from "react";
-//import SweetAlert from "react-bootstrap-sweetalert";
 import PropTypes from "prop-types";
 import {
-  getCommentById,
   getCommentsByPostId,
-  getCommentsByEventId,
-  getCommentsByMediaId,
-  postComment,
   editComment,
   deleteComment
 } from "../../services/comment.service";
 import CommentThread from "./CommentThread";
-import { connect } from "react-redux";
 
 class CommentsContainer extends React.Component {
   state = {
-    //postId: 5,
-    //eventId: 0,
-    //mediaId: 0,
     comments: [],
     newComment: "",
     showReplyInput: false,
     currentReply: null,
-    showAll: false
-    //alert: null
+    showAllComments: false
   };
 
-  toggleShowAll = e => {
+  toggleShowAllComments = e => {
     e.preventDefault();
     this.setState({
-      showAll: !this.state.showAll
+      showAll: !this.state.showAllComments
     });
   };
 
@@ -37,7 +27,6 @@ class CommentsContainer extends React.Component {
     let commentArray = [];
     let rootCommentCount = 0;
     getCommentsByPostId(parseInt(this.props.postId)).then(response => {
-      //console.log("GET Comments", response);
       if (response && response.data.length > 0) {
         response.data.map(post => {
           let year = new Date().getUTCFullYear();
@@ -47,28 +36,33 @@ class CommentsContainer extends React.Component {
           let minutes = new Date().getUTCMinutes();
           let seconds = new Date().getUTCSeconds();
           let milliseconds = new Date().getUTCMilliseconds();
-
-          // let utcDate = new Date(Date.UTC(year, month, day, hours, minutes, seconds, milliseconds));
-          let nowElapsed = Date.UTC(year, month, day, hours, minutes, seconds, milliseconds);
-          // let currentUTCDateTime = utcDate.toUTCString();
-          // let timeNow = currentUTCDateTime.replace(/,/g, "") + "-0700 (Pacific Daylight Time)";
+          let nowElapsed = Date.UTC(
+            year,
+            month,
+            day,
+            hours,
+            minutes,
+            seconds,
+            milliseconds
+          );
           let pTime = post.dateCreated;
           let pYear = pTime.substring(0, 4);
           let pMonth = pTime.substring(5, 7) - 1;
-
           let pDay = pTime.substring(8, 10);
           let pHours = pTime.substring(11, 13);
-
           let pMinutes = pTime.substring(14, 16);
-
           let pSeconds = pTime.substring(17, 19);
-
           let pMilliseconds = pTime.substring(20, 21) * 100;
-          let postElapsed = Date.UTC(pYear, pMonth, pDay, pHours, pMinutes, pSeconds, pMilliseconds);
+          let postElapsed = Date.UTC(
+            pYear,
+            pMonth,
+            pDay,
+            pHours,
+            pMinutes,
+            pSeconds,
+            pMilliseconds
+          );
           let elapsedTime = Math.round((nowElapsed - postElapsed) / 1000 / 60);
-
-          // let elapsedTime = Math.round((new Date() - new Date(post.dateCreated)) / 1000 / 60);
-
           let timeStamp;
           if (elapsedTime < 1) {
             timeStamp = "1min";
@@ -95,7 +89,6 @@ class CommentsContainer extends React.Component {
             let yrsTime = Math.round(elapsedTime / 518400);
             timeStamp = `${yrsTime}yrs`;
           }
-
           let comment = {
             postId: post.parentPost,
             commentId: post.id,
@@ -152,27 +145,6 @@ class CommentsContainer extends React.Component {
     });
   };
 
-  // confirmDelete = e => {
-  //   e.preventDefault();
-  //   const getAlert = () => (
-  //     <SweetAlert
-  //       warning
-  //       showCancel
-  //       confirmBtnText="Yes, delete it!"
-  //       confirmBtnBsStyle="danger"
-  //       cancelBtnBsStyle="default"
-  //       title="Are you sure you want to delete your comment?"
-  //       onConfirm={this.removeComment}
-  //       onCancel={this.cancelDelete}
-  //     />
-  //   );
-  //   this.setState({ alert: getAlert() });
-  // };
-
-  // cancelDelete = () => {
-  //   this.setState({ alert: null });
-  // };
-
   removeComment = e => {
     e.preventDefault();
     let commentKeys = e.target.name.split(" ");
@@ -190,7 +162,6 @@ class CommentsContainer extends React.Component {
           removed: true
         };
         editComment(comment).then(response => {
-          //console.log("Content Removed", response);
           this.renderComments();
         });
         hasReplies = true;
@@ -200,7 +171,6 @@ class CommentsContainer extends React.Component {
 
     if (hasReplies === false) {
       deleteComment(commentId).then(response => {
-        //console.log("DELETE", response);
         this.renderComments();
       });
     }
@@ -208,8 +178,6 @@ class CommentsContainer extends React.Component {
 
   showReply = e => {
     e.preventDefault();
-    //console.log(e.target.name);
-
     let replyKey = parseInt(e.target.name);
     if (!this.state.showReplyInput) {
       this.setState({
@@ -227,7 +195,6 @@ class CommentsContainer extends React.Component {
   componentDidMount() {
     let commentArray = [];
     let rootCommentCount = 0;
-    //console.log("GET Comments", response);
     if (this.props.data && this.props.data.length > 0) {
       this.props.data.map(post => {
         let year = new Date().getUTCFullYear();
@@ -237,27 +204,33 @@ class CommentsContainer extends React.Component {
         let minutes = new Date().getUTCMinutes();
         let seconds = new Date().getUTCSeconds();
         let milliseconds = new Date().getUTCMilliseconds();
-
-        // let utcDate = new Date(Date.UTC(year, month, day, hours, minutes, seconds, milliseconds));
-        let nowElapsed = Date.UTC(year, month, day, hours, minutes, seconds, milliseconds);
-        // let currentUTCDateTime = utcDate.toUTCString();
-        // let timeNow = currentUTCDateTime.replace(/,/g, "") + "-0700 (Pacific Daylight Time)";
+        let nowElapsed = Date.UTC(
+          year,
+          month,
+          day,
+          hours,
+          minutes,
+          seconds,
+          milliseconds
+        );
         let pTime = post.DateCreated;
         let pYear = pTime.substring(0, 4);
         let pMonth = pTime.substring(5, 7) - 1;
-
         let pDay = pTime.substring(8, 10);
         let pHours = pTime.substring(11, 13);
-
         let pMinutes = pTime.substring(14, 16);
-
         let pSeconds = pTime.substring(17, 19);
-
         let pMilliseconds = pTime.substring(20, 21) * 100;
-        let postElapsed = Date.UTC(pYear, pMonth, pDay, pHours, pMinutes, pSeconds, pMilliseconds);
+        let postElapsed = Date.UTC(
+          pYear,
+          pMonth,
+          pDay,
+          pHours,
+          pMinutes,
+          pSeconds,
+          pMilliseconds
+        );
         let elapsedTime = Math.round((nowElapsed - postElapsed) / 1000 / 60);
-
-        // let elapsedTime = Math.round((new Date() - new Date(post.DateCreated)) / 1000 / 60);
         let timeStamp;
         if (elapsedTime < 1) {
           timeStamp = "1min";
@@ -325,9 +298,8 @@ class CommentsContainer extends React.Component {
           handleCommentChange={this.handleCommentChange}
           newComment={this.state.newComment}
           removeComment={this.removeComment}
-          showAll={this.state.showAll}
-          toggleShowAll={this.toggleShowAll}
-          //confirmDelete={this.confirmDelete}
+          showAllComments={this.state.showAllComments}
+          toggleShowAllComments={this.toggleShowAllComments}
         />
       </div>
     );
@@ -335,13 +307,8 @@ class CommentsContainer extends React.Component {
 }
 
 CommentsContainer.propTypes = {
-  postId: PropTypes.number.isRequired
+  postId: PropTypes.number.isRequired,
+  currentUser: PropTypes.number.isRequired
 };
 
-function mapStateToProps(state) {
-  return {
-    currentUser: state.currentUser
-  };
-}
-
-export default connect(mapStateToProps)(CommentsContainer);
+export default CommentsContainer;

@@ -5,7 +5,6 @@ class CommentReplies extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {/* {(this.props.comments.length < 4 || this.props.showAll) && ( */}
         <li className="list" style={{ listStyle: "none" }} className="pl-1">
           <div className="row mt-1">
             <div className="col-md-1 mr-4">
@@ -33,14 +32,21 @@ class CommentReplies extends React.Component {
             <div className="col-md-3">
               <div className="row mb-0">
                 <div className="col-md-12">
-                  <h6 style={{ fontSize: "xx-small" }}>{this.props.reply.dateCreated}</h6>
+                  <h6 style={{ fontSize: "xx-small" }}>
+                    {this.props.reply.dateCreated}
+                  </h6>
                 </div>
               </div>
               {this.props.reply.user !== null && (
                 <div className="row">
                   <div className="col-md-12">
-                    <a href="#" onClick={this.props.showReply} name={this.props.reply.commentId}>
-                      {this.props.showReplyInput && this.props.currentReply === this.props.reply.commentId
+                    <a
+                      href="#"
+                      onClick={this.props.showReply}
+                      name={this.props.reply.commentId}
+                    >
+                      {this.props.showReplyInput &&
+                      this.props.currentReply === this.props.reply.commentId
                         ? "cancel"
                         : "reply"}
                     </a>
@@ -54,7 +60,11 @@ class CommentReplies extends React.Component {
                       <a
                         href="#"
                         onClick={this.props.removeComment}
-                        name={this.props.reply.commentId + " " + this.props.reply.parentComment}
+                        name={
+                          this.props.reply.commentId +
+                          " " +
+                          this.props.reply.parentComment
+                        }
                       >
                         delete
                       </a>
@@ -86,8 +96,7 @@ class CommentReplies extends React.Component {
                     currentReply={this.props.currentReply}
                     showReply={this.props.showReply}
                     removeComment={this.props.removeComment}
-                    showAll={this.props.showAll}
-                    //confirmDelete={this.props.confirmDelete}
+                    showAllComments={this.props.showAllComments}
                   />
                 </ul>
               );
